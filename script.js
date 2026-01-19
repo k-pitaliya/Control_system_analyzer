@@ -723,28 +723,43 @@ class AdvancedControlSystemAnalyzer {
         }
 
       } else if (inputType === 'ramp') {
-        // Proper second-order ramp response: y(t) = (K/ωn²)[t - (2ζ/ωn) + (transient terms)]
-        // For underdamped case: includes decaying sinusoidal transient
+        // Second-order ramp response from inverse Laplace transform:
+        // For G(s) = Kωn²/(s² + 2ζωns + ωn²) and R(s) = 1/s²
+        // c(t) = K[t - 2ζ/ωn + (e^(-ζωnt)/ωd) × ((2ζ²-1)/ωn × sin(ωdt) + 2ζ/ωn × cos(ωdt))]
         if (zeta < 1) {
           const wd = wn * Math.sqrt(Math.max(0, 1 - zeta * zeta));
+          const sigma = zeta * wn;
           return t.map(time => {
             if (time === 0) return 0;
-            const steadyState = K * (time - (2 * zeta / wn)) / (wn * wn);
-            const expTerm = Math.exp(-zeta * wn * time);
-            const phi = Math.atan2(2 * zeta * Math.sqrt(1 - zeta * zeta), 1 - 2 * zeta * zeta);
-            const transient = (K * 2 * zeta / (wn * wn * wn * Math.sqrt(1 - zeta * zeta))) * expTerm * Math.sin(wd * time + phi);
-            return steadyState + transient;
+            const expTerm = Math.exp(-sigma * time);
+            // Correct transient from standard tables:
+            // Transient = (e^(-σt)/ωd) × [((2ζ²-1)/ωn)sin(ωdt) + (2ζ/ωn)cos(ωdt)]
+            const A = (2 * zeta * zeta - 1) / wn;
+            const B = (2 * zeta) / wn;
+            const transient = (expTerm / wd) * (A * Math.sin(wd * time) + B * Math.cos(wd * time));
+            const steadyState = time - (2 * zeta / wn);
+            return K * (steadyState + transient);
           });
         } else if (this.approximatelyEquals(zeta, 1)) {
-          // Critically damped ramp response
+          // Critically damped ramp response: c(t) = K[t - 2/ωn + (2/ωn)(1 + ωnt)e^(-ωnt)]
           return t.map(time => {
-            const steadyState = K * (time - 2 / wn) / (wn * wn);
-            const transient = (K * 2 / (wn * wn * wn)) * (1 + wn * time) * Math.exp(-wn * time);
-            return steadyState + transient;
+            const expTerm = Math.exp(-wn * time);
+            const steadyState = time - 2 / wn;
+            const transient = (2 / wn) * (1 + wn * time) * expTerm;
+            return K * (steadyState + transient);
           });
         } else {
-          // Overdamped ramp response
-          return t.map(time => K * (time - 2 * zeta / wn) / (wn * wn));
+          // Overdamped ramp response with proper transient
+          const sqrtTerm = Math.sqrt(zeta * zeta - 1);
+          const p1 = -zeta * wn + wn * sqrtTerm;
+          const p2 = -zeta * wn - wn * sqrtTerm;
+          return t.map(time => {
+            const steadyState = time - 2 * zeta / wn;
+            const A1 = 1 / (2 * wn * wn * sqrtTerm * p1);
+            const A2 = -1 / (2 * wn * wn * sqrtTerm * p2);
+            const transient = A1 * Math.exp(p1 * time) - A2 * Math.exp(p2 * time);
+            return K * (steadyState + transient * wn * wn);
+          });
         }
 
       } else if (inputType === 'parabolic') {
@@ -2572,38 +2587,68 @@ class AdvancedControlSystemAnalyzer {
 
     const EPS = 1e-12;
 
-    // Build remaining rows using proper Routh-Hurwitz formula:
-    // b_i = (a_{n-1} * c_i - a_n * d_i) / a_{n-1}
-    // where c_i and d_i are elements from rows above
+    // Build remaining rows using proper Routh-Hurwitz formula
     for (let i = 2; i <= n; i++) {
-      const prevRow1 = routhArray[i - 1] || [];
+      let prevRow1 = routhArray[i - 1].slice() || [];
       const prevRow2 = routhArray[i - 2] || [];
       const newRow = [];
+
+      // Check for row of zeros (special case)
+      const isRowOfZeros = prevRow1.every(val => Math.abs(val) < EPS);
+
+      if (isRowOfZeros) {
+        // SPECIAL CASE: Row of zeros - use auxiliary polynomial derivative method
+        // The auxiliary polynomial is formed from the row ABOVE the zero row
+        // A(s) = a₀s^m + a₁s^(m-2) + a₂s^(m-4) + ...
+        // where m is the power of s for that row (n - (i-2) for row i-2)
+        // Take derivative: A'(s) = m·a₀s^(m-1) + (m-2)·a₁s^(m-3) + ...
+
+        const auxRowIndex = i - 2;
+        const auxRow = prevRow2;
+        const power = n - auxRowIndex; // Starting power for the auxiliary polynomial
+
+        // Compute derivative coefficients
+        const derivativeRow = [];
+        for (let k = 0; k < auxRow.length; k++) {
+          const currentPower = power - 2 * k;
+          if (currentPower >= 0) {
+            derivativeRow.push(auxRow[k] * currentPower);
+          }
+        }
+
+        // Replace the zero row with derivative coefficients
+        if (derivativeRow.length > 0 && derivativeRow.some(v => Math.abs(v) > EPS)) {
+          prevRow1 = derivativeRow;
+          routhArray[i - 1] = derivativeRow.slice();
+        } else {
+          // If derivative is also zeros, use small epsilon as fallback
+          prevRow1 = [EPS];
+          routhArray[i - 1] = [EPS];
+        }
+      }
 
       // First element of previous row (the pivot)
       let pivot = prevRow1[0];
 
-      // Handle special case: entire row of zeros
-      if (Math.abs(pivot) < EPS) {
-        // Replace zero row with derivative of auxiliary polynomial
-        // This is the standard handling for special cases in Routh array
-        pivot = EPS; // Use small epsilon to continue
+      // Handle single zero first element (not entire row of zeros)
+      if (Math.abs(pivot) < EPS && !isRowOfZeros) {
+        // Replace single zero with small epsilon to continue
+        pivot = EPS;
+        routhArray[i - 1][0] = EPS;
       }
 
       const maxLen = Math.max(prevRow1.length, prevRow2.length);
       for (let j = 0; j < maxLen - 1; j++) {
-        const a = pivot;
         const b = prevRow2[j + 1] !== undefined ? prevRow2[j + 1] : 0;
         const c1 = prevRow1[j + 1] !== undefined ? prevRow1[j + 1] : 0;
         const d = prevRow2[0] !== undefined ? prevRow2[0] : 0;
 
-        // Correct Routh formula: (a * b - d * c1) / a
-        // This computes the cross-multiplication and division
-        const value = (prevRow1[0] * prevRow2[j + 1] - prevRow2[0] * prevRow1[j + 1]) / (Math.abs(prevRow1[0]) < EPS ? EPS : prevRow1[0]);
+        // Routh formula: (pivot * b - d * c1) / pivot
+        const value = (pivot * b - d * c1) / (Math.abs(pivot) < EPS ? EPS : pivot);
         newRow.push(Number.isFinite(value) ? value : 0);
       }
 
-      // If newRow is empty or all zeros, break to prevent infinite issues
+      // If newRow is empty, add a zero
       if (newRow.length === 0) {
         newRow.push(0);
       }

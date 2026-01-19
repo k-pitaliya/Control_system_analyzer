@@ -172,9 +172,9 @@ c(t) = K[1 - (e^(-ζωnt) / √(1-ζ²)) × sin(ωd×t + φ)]
 where φ = atan(√(1-ζ²) / ζ) and ωd = ωn√(1-ζ²)
 ```
 
-**Time Domain Specifications:**
+**Time Domain Specifications (Underdamped 2nd Order):**
 ```
-Rise Time:    Tr ≈ (1.8) / ωn  (for ζ = 0.5)
+Rise Time:    Tr ≈ (π - β) / ωd   where β = atan(√(1-ζ²)/ζ) and ωd = ωn√(1-ζ²)
 Peak Time:    Tp = π / ωd
 Settling Time: Ts ≈ 4 / (ζωn)  (2% criterion)
 Overshoot:    Mp = e^(-πζ/√(1-ζ²)) × 100%
