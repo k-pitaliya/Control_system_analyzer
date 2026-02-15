@@ -1,11 +1,12 @@
 # 🎛️ Advanced Control System Analyzer
 
-An interactive web-based tool for analyzing and visualizing control system responses. Built to help students understand fundamental control system concepts through visual demonstrations.
+An interactive web-based tool for analyzing and visualizing control system responses. Built to help engineering students understand fundamental control system concepts through visual demonstrations.
 
-![Control System Analyzer](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip%20Systems-Educational%20Tool-purple)
-![HTML5](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip)
-![JavaScript](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip)
-![Plotly](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-purple?style=for-the-badge)](https://kushalpitaliya.github.io/Control_system_analyzer)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
 
 ## 📚 Overview
 
@@ -26,6 +27,7 @@ This tool provides interactive analysis of control systems including:
 | Input Types | Step, Ramp, Parabolic, Impulse, Sinusoidal |
 
 ### Calculated Parameters
+
 **Time Domain:**
 - Delay Time (Td) - Time to reach 50% of final value
 - Rise Time (Tr) - Time from 10% to 90% of final value
@@ -53,36 +55,54 @@ This tool provides interactive analysis of control systems including:
 
 ### Prerequisites
 - A modern web browser (Chrome, Firefox, Safari, Edge)
-- A local development server (optional, but recommended)
+- Node.js v18+ (for development)
 
-### Installation
+### Quick Start
 
-1. **Clone or download the repository:**
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip
-   cd control-system-analyzer
+   git clone https://github.com/KushalPitaliya/Control_system_analyzer.git
+   cd Control_system_analyzer
    ```
 
-2. **Open with a local server:**
-   
-   Using VS Code Live Server:
-   - Install the "Live Server" extension
-   - Right-click on `https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip` → "Open with Live Server"
-   
-   Or using Python:
+2. **Install dependencies:**
    ```bash
-   python -m https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip 5500
-   ```
-   
-   Or using https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip
-   ```bash
-   npx serve .
+   npm install
    ```
 
-3. **Open in browser:**
+3. **Start development server:**
+   ```bash
+   npm run dev
    ```
-   https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip
+
+4. **Open in browser:**
    ```
+   http://localhost:5173
+   ```
+
+### Alternative: Open Directly
+Simply open `index.html` in your browser — no server required!
+
+## 🧪 Testing
+
+Run the comprehensive test suite:
+
+```bash
+# Run all tests
+npm test
+
+# Run with coverage
+npm run test:coverage
+
+# Interactive test UI
+npm run test:ui
+```
+
+**24 unit tests** covering:
+- Complex number operations
+- Polynomial utilities
+- Root finding algorithms
+- Helper functions
 
 ## 📖 Usage Guide
 
@@ -115,6 +135,44 @@ This tool provides interactive analysis of control systems including:
    - Routh Array with sign change analysis
    - Hurwitz Matrix with principal minors
 
+## 📁 Project Structure
+
+```
+control-system-analyzer/
+├── index.html              # Main HTML structure
+├── script.js               # Core control system calculations
+├── styles.css              # Dark theme with glassmorphism
+├── package.json            # Dependencies & scripts
+├── .gitignore              # Git ignore rules
+│
+├── js/                     # Modular JavaScript
+│   ├── config/
+│   │   └── constants.js    # Centralized configuration
+│   ├── utils/
+│   │   ├── math-helpers.js # Complex number & polynomial utilities
+│   │   ├── root-finder.js  # Root finding algorithms
+│   │   └── data-exporter.js# Export functionality (PNG, SVG, JSON, CSV)
+│   └── ui/
+│       └── enhancements.js # Enhanced UI components
+│
+├── css/
+│   └── enhancements.css    # Enhanced UI styles
+│
+└── tests/
+    └── math-helpers.test.js# Unit tests (24 tests)
+```
+
+## 🛠️ Technologies Used
+
+- **HTML5** - Structure
+- **CSS3** - Modern dark theme with glassmorphism effects
+- **JavaScript (ES6+)** - Control system calculations & modules
+- **[Plotly.js](https://plotly.com/javascript/)** - Interactive chart plotting
+- **[MathJax](https://www.mathjax.org/)** - Mathematical formula rendering
+- **[Math.js](https://mathjs.org/)** - Complex number operations
+- **[Vite](https://vitejs.dev/)** - Build tool & dev server
+- **[Vitest](https://vitest.dev/)** - Unit testing framework
+
 ## 🎓 Control System Concepts
 
 ### Second-Order System Response Categories
@@ -129,8 +187,8 @@ This tool provides interactive analysis of control systems including:
 
 - **Gain Margin**: How much gain can be increased before instability
   - GM > 0 dB → Stable
-  - GM = ∞ → Phase never reaches -180° (unconditionally stable for gain)
-  
+  - GM = ∞ → Unconditionally stable for gain
+
 - **Phase Margin**: How much phase lag can be added before instability
   - PM > 45° → Well-damped response
   - PM > 30° → Acceptable damping
@@ -143,53 +201,26 @@ A system is **stable** if and only if:
 2. All elements in the first column of the Routh array are positive
 3. No sign changes occur in the first column
 
-## 📁 Project Structure
+## 📐 Key Formulas
 
-```
-control-system-analyzer/
-├── https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip      # Main HTML structure
-├── https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip      # Dark theme styling with glassmorphism
-├── https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip       # All control system calculations and plotting
-└── https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip       # This file
-```
-
-## 🛠️ Technologies Used
-
-- **HTML5** - Structure
-- **CSS3** - Modern dark theme with glassmorphism effects
-- **JavaScript (ES6+)** - Control system calculations
-- **https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip** - Interactive chart plotting
-- **MathJax** - Mathematical formula rendering
-- **https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip** - Complex number operations
-
-## 📐 Formulas Implemented
-
-### Time Response Formulas
-
-**Second-Order Step Response (Underdamped):**
+### Second-Order Step Response (Underdamped)
 ```
 c(t) = K[1 - (e^(-ζωnt) / √(1-ζ²)) × sin(ωd×t + φ)]
 where φ = atan(√(1-ζ²) / ζ) and ωd = ωn√(1-ζ²)
 ```
 
-**Time Domain Specifications (Underdamped 2nd Order):**
+### Time Domain Specifications
 ```
-Rise Time:    Tr ≈ (π - β) / ωd   where β = atan(√(1-ζ²)/ζ) and ωd = ωn√(1-ζ²)
-Peak Time:    Tp = π / ωd
-Settling Time: Ts ≈ 4 / (ζωn)  (2% criterion)
-Overshoot:    Mp = e^(-πζ/√(1-ζ²)) × 100%
-```
-
-### Frequency Response Formulas
-
-**Gain Margin:**
-```
-GM = -20 log₁₀|G(jωpc)|  where ∠G(jωpc) = -180°
+Rise Time:     Tr ≈ (π - β) / ωd
+Peak Time:     Tp = π / ωd
+Settling Time: Ts ≈ 4 / (ζωn)     (2% criterion)
+Overshoot:     Mp = e^(-πζ/√(1-ζ²)) × 100%
 ```
 
-**Phase Margin:**
+### Stability Margins
 ```
-PM = 180° + ∠G(jωgc)  where |G(jωgc)| = 1 (0 dB)
+Gain Margin:  GM = -20 log₁₀|G(jωpc)|   where ∠G(jωpc) = -180°
+Phase Margin: PM = 180° + ∠G(jωgc)       where |G(jωgc)| = 1 (0 dB)
 ```
 
 ## 🤝 Contributing
@@ -212,8 +243,9 @@ This project is open source and available under the [MIT License](LICENSE).
   - Ogata, K. "Modern Control Engineering"
   - Nise, N. "Control Systems Engineering"
   - Dorf, R. & Bishop, R. "Modern Control Systems"
-- Built with [https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip) for interactive charts
-- Mathematical rendering by [MathJax](https://github.com/KushalPitaliya/Control_system_analyzer/raw/refs/heads/main/sportingly/Control-analyzer-system-v3.1-beta.4.zip)
+- Built with [Plotly.js](https://plotly.com/javascript/) for interactive charts
+- Mathematical rendering by [MathJax](https://www.mathjax.org/)
+- Complex operations by [Math.js](https://mathjs.org/)
 
 ## 📞 Support
 
