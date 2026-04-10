@@ -11,7 +11,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "lint": "eslint js/**/*.js",
+    "lint": "eslint js/**/*.js script.js",
     "lint:fix": "eslint js/**/*.js --fix",
     "format": "prettier --write \"**/*.{js,css,html,md}\"",
     "docs": "jsdoc -c jsdoc.json",
@@ -30,7 +30,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tigmanshupatelec/Control_system_analyzer.git"
+    "url": "https://github.com/KushalPitaliya/Control_system_analyzer.git"
   },
   "devDependencies": {
     "@vitest/ui": "^1.0.0",
