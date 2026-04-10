@@ -2761,7 +2761,6 @@ if (window.__AdvancedControlSystemAnalyzerInitialized) {
 } else {
   window.__AdvancedControlSystemAnalyzerInitialized = true;
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('Initializing Advanced Control System Analyzer...');
     window.__advancedAnalyzerInstance = new AdvancedControlSystemAnalyzer();
   });
 }
