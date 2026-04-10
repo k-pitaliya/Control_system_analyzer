@@ -33,16 +33,15 @@
     "url": "https://github.com/KushalPitaliya/Control_system_analyzer.git"
   },
   "devDependencies": {
-    "@vitest/ui": "^1.0.0",
-    "eslint": "^8.55.0",
+    "@vitest/coverage-v8": "^4.1.4",
+    "@vitest/ui": "^4.1.4",
+    "eslint": "^10.2.0",
     "gh-pages": "^6.1.0",
     "jsdoc": "^4.0.2",
     "prettier": "^3.1.1",
-    "vite": "^5.0.10",
-    "vitest": "^1.0.4",
-    "@vitest/coverage-v8": "^1.0.4"
+    "vite": "^8.0.8",
+    "vitest": "^4.1.4"
   },
-  "dependencies": {},
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
