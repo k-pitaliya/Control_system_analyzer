@@ -605,6 +605,104 @@ class AdvancedControlSystemAnalyzer {
     };
   }
 
+  // ============================================
+  // Shared Root Finding (used by RL & PZ map)
+  // ============================================
+
+  _safeRoots(coeffs) {
+    try {
+      let coeffsArray = null;
+
+      if (Array.isArray(coeffs) && coeffs.constructor === Array) {
+        coeffsArray = Array.from(coeffs);
+      } else if (coeffs && typeof coeffs === 'object') {
+        if (typeof math !== 'undefined') {
+          if (math.isMatrix && typeof math.isMatrix === 'function' && math.isMatrix(coeffs)) {
+            try { coeffsArray = Array.from(coeffs.toArray().flat()); } catch (e) { /* fallback */ }
+          }
+          if (!coeffsArray && typeof math.toArray === 'function') {
+            try {
+              const converted = math.toArray(coeffs);
+              coeffsArray = Array.isArray(converted) ? Array.from(converted.flat()) : null;
+            } catch (e) { /* fallback */ }
+          }
+        }
+        if (!coeffsArray && typeof coeffs.toArray === 'function') {
+          try {
+            const converted = coeffs.toArray();
+            coeffsArray = Array.isArray(converted) ? Array.from(converted.flat()) : null;
+          } catch (e) { /* fallback */ }
+        }
+        if (!coeffsArray && coeffs._data) {
+          try {
+            if (Array.isArray(coeffs._data)) coeffsArray = Array.from(coeffs._data.flat());
+          } catch (e) { /* fallback */ }
+        }
+        if (!coeffsArray && (coeffs.length !== undefined || coeffs.size !== undefined)) {
+          try {
+            const len = coeffs.length || coeffs.size || 0;
+            coeffsArray = [];
+            for (let i = 0; i < len; i++) {
+              const val = coeffs[i] || coeffs.get?.(i);
+              if (val !== undefined) coeffsArray.push(Number(val));
+            }
+          } catch (e) { /* fallback */ }
+        }
+      }
+
+      if (!coeffsArray || !Array.isArray(coeffsArray)) {
+        coeffsArray = Array.isArray(coeffs) ? Array.from(coeffs) : [];
+      }
+
+      coeffsArray = Array.from(coeffsArray.flat()).map(v => Number(v) || 0);
+      const reversedCoeffs = coeffsArray.slice().reverse();
+
+      if (typeof math !== 'undefined' && typeof math.polynomialRoot === 'function') {
+        try {
+          const r = math.polynomialRoot(...reversedCoeffs) || [];
+          return r.map(rr => {
+            if (typeof rr === 'number') return { re: rr, im: 0 };
+            if (typeof rr === 'object' && rr !== null) {
+              return {
+                re: Number(rr.re ?? rr.real ?? rr.x ?? (Array.isArray(rr) ? rr[0] : 0) ?? 0),
+                im: Number(rr.im ?? rr.imag ?? rr.y ?? (Array.isArray(rr) ? rr[1] : 0) ?? 0)
+              };
+            }
+            return { re: 0, im: 0 };
+          });
+        } catch (e) {
+          console.warn('math.polynomialRoot failed, using fallback:', e);
+        }
+      }
+      if (typeof math !== 'undefined' && typeof math.roots === 'function') {
+        try {
+          const r = math.roots(...reversedCoeffs) || [];
+          return r.map(rr => {
+            if (typeof rr === 'number') return { re: rr, im: 0 };
+            return {
+              re: Number(rr.re ?? rr.x ?? (Array.isArray(rr) ? rr[0] : 0) ?? 0),
+              im: Number(rr.im ?? rr.y ?? (Array.isArray(rr) ? rr[1] : 0) ?? 0)
+            };
+          });
+        } catch (e) {
+          console.warn('math.roots failed, using fallback:', e);
+        }
+      }
+      if (typeof this.findRoots === 'function') {
+        return this.findRoots(coeffsArray.slice()).map(rr => ({ re: Number(rr.re || 0), im: Number(rr.im || 0) }));
+      }
+      return [];
+    } catch (e) {
+      console.warn('_safeRoots: root finding failed for coeffs', coeffs, e);
+      const arr = Array.isArray(coeffs) ? coeffs : (coeffs && typeof coeffs.toArray === 'function' ? coeffs.toArray().flat() : []);
+      try {
+        return this.findRoots(arr.slice()).map(rr => ({ re: Number(rr.re || 0), im: Number(rr.im || 0) }));
+      } catch (e2) {
+        return [];
+      }
+    }
+  }
+
   // =======================
   // Time Response Analysis
   // =======================
@@ -1329,129 +1427,7 @@ class AdvancedControlSystemAnalyzer {
     }
 
     // Helper to get roots either from math.js or fallback to findRoots()
-    const safeRoots = (coeffs) => {
-      try {
-        // Robust conversion to plain JavaScript array
-        let coeffsArray = null;
-
-        // First, check if it's already a plain array
-        if (Array.isArray(coeffs) && coeffs.constructor === Array) {
-          // Create a new plain array to ensure it's not a matrix in disguise
-          coeffsArray = Array.from(coeffs);
-        } else if (coeffs && typeof coeffs === 'object') {
-          // It's an object - try multiple methods to convert to array
-          if (typeof math !== 'undefined') {
-            // Method 1: Check if it's a math.js matrix using isMatrix
-            if (math.isMatrix && typeof math.isMatrix === 'function' && math.isMatrix(coeffs)) {
-              try {
-                coeffsArray = Array.from(coeffs.toArray().flat());
-              } catch (e) {
-                // Fallback
-              }
-            }
-
-            // Method 2: Try math.toArray
-            if (!coeffsArray && typeof math.toArray === 'function') {
-              try {
-                const converted = math.toArray(coeffs);
-                coeffsArray = Array.isArray(converted) ? Array.from(converted.flat()) : null;
-              } catch (e) {
-                // Fallback
-              }
-            }
-          }
-
-          // Method 3: Try toArray method directly
-          if (!coeffsArray && typeof coeffs.toArray === 'function') {
-            try {
-              const converted = coeffs.toArray();
-              coeffsArray = Array.isArray(converted) ? Array.from(converted.flat()) : null;
-            } catch (e) {
-              // Fallback
-            }
-          }
-
-          // Method 4: Check for _data property (internal matrix structure)
-          if (!coeffsArray && coeffs._data) {
-            try {
-              if (Array.isArray(coeffs._data)) {
-                coeffsArray = Array.from(coeffs._data.flat());
-              }
-            } catch (e) {
-              // Fallback
-            }
-          }
-
-          // Method 5: Try to extract values if it's array-like
-          if (!coeffsArray && (coeffs.length !== undefined || coeffs.size !== undefined)) {
-            try {
-              const len = coeffs.length || coeffs.size || 0;
-              coeffsArray = [];
-              for (let i = 0; i < len; i++) {
-                const val = coeffs[i] || coeffs.get?.(i);
-                if (val !== undefined) coeffsArray.push(Number(val));
-              }
-            } catch (e) {
-              // Fallback
-            }
-          }
-        }
-
-        // Final fallback: if still not an array, try to create one
-        if (!coeffsArray || !Array.isArray(coeffsArray)) {
-          if (Array.isArray(coeffs)) {
-            coeffsArray = Array.from(coeffs);
-          } else {
-            coeffsArray = [];
-          }
-        }
-
-        // Ensure it's a flat, plain JavaScript array of numbers
-        coeffsArray = Array.from(coeffsArray.flat()).map(v => Number(v) || 0);
-
-        // Try math.js polynomialRoot first (correct API)
-        if (typeof math !== 'undefined' && typeof math.polynomialRoot === 'function') {
-          try {
-            const r = math.polynomialRoot(coeffsArray) || [];
-            return r.map(rr => {
-              if (typeof rr === 'number') return { re: rr, im: 0 };
-              if (typeof rr === 'object' && rr !== null) {
-                return {
-                  re: Number(rr.re ?? rr.real ?? rr.x ?? (Array.isArray(rr) ? rr[0] : 0) ?? 0),
-                  im: Number(rr.im ?? rr.imag ?? rr.y ?? (Array.isArray(rr) ? rr[1] : 0) ?? 0)
-                };
-              }
-              return { re: 0, im: 0 };
-            });
-          } catch (e) {
-            console.warn('math.polynomialRoot failed, using fallback:', e);
-          }
-        }
-        // Try legacy math.roots if it exists
-        if (typeof math !== 'undefined' && typeof math.roots === 'function') {
-          try {
-            const r = math.roots(coeffsArray) || [];
-            return r.map(rr => {
-              if (typeof rr === 'number') return { re: rr, im: 0 };
-              return {
-                re: Number(rr.re ?? rr.x ?? (Array.isArray(rr) ? rr[0] : 0) ?? 0),
-                im: Number(rr.im ?? rr.y ?? (Array.isArray(rr) ? rr[1] : 0) ?? 0)
-              };
-            });
-          } catch (e) {
-            console.warn('math.roots failed, using fallback:', e);
-          }
-        }
-        // Fallback to our implementation
-        if (typeof this.findRoots === 'function') {
-          return this.findRoots(coeffsArray.slice()).map(rr => ({ re: Number(rr.re || 0), im: Number(rr.im || 0) }));
-        }
-        return [];
-      } catch (e) {
-        console.warn('safeRoots: root finding failed for coeffs', coeffs, e);
-        return [];
-      }
-    };
+    const safeRoots = (coeffs) => this._safeRoots(coeffs);
 
     // compute open-loop poles (den roots) and zeros (numPad roots)
     let poles0 = [], zeros = [];
@@ -2100,120 +2076,8 @@ class AdvancedControlSystemAnalyzer {
 
     if (!num.length || !den.length) return;
 
-    // Use safeRoots helper (same as in computeRootLocus)
-    const safeRoots = (coeffs) => {
-      try {
-        // Robust conversion to plain JavaScript array
-        let coeffsArray = null;
-
-        // First, check if it's already a plain array
-        if (Array.isArray(coeffs) && coeffs.constructor === Array) {
-          // Create a new plain array to ensure it's not a matrix in disguise
-          coeffsArray = Array.from(coeffs);
-        } else if (coeffs && typeof coeffs === 'object') {
-          // It's an object - try multiple methods to convert to array
-          if (typeof math !== 'undefined') {
-            // Method 1: Check if it's a math.js matrix using isMatrix
-            if (math.isMatrix && typeof math.isMatrix === 'function' && math.isMatrix(coeffs)) {
-              try {
-                coeffsArray = Array.from(coeffs.toArray().flat());
-              } catch (e) {
-                // Fallback
-              }
-            }
-
-            // Method 2: Try math.toArray
-            if (!coeffsArray && typeof math.toArray === 'function') {
-              try {
-                const converted = math.toArray(coeffs);
-                coeffsArray = Array.isArray(converted) ? Array.from(converted.flat()) : null;
-              } catch (e) {
-                // Fallback
-              }
-            }
-          }
-
-          // Method 3: Try toArray method directly
-          if (!coeffsArray && typeof coeffs.toArray === 'function') {
-            try {
-              const converted = coeffs.toArray();
-              coeffsArray = Array.isArray(converted) ? Array.from(converted.flat()) : null;
-            } catch (e) {
-              // Fallback
-            }
-          }
-
-          // Method 4: Check for _data property (internal matrix structure)
-          if (!coeffsArray && coeffs._data) {
-            try {
-              if (Array.isArray(coeffs._data)) {
-                coeffsArray = Array.from(coeffs._data.flat());
-              }
-            } catch (e) {
-              // Fallback
-            }
-          }
-
-          // Method 5: Try to extract values if it's array-like
-          if (!coeffsArray && (coeffs.length !== undefined || coeffs.size !== undefined)) {
-            try {
-              const len = coeffs.length || coeffs.size || 0;
-              coeffsArray = [];
-              for (let i = 0; i < len; i++) {
-                const val = coeffs[i] || coeffs.get?.(i);
-                if (val !== undefined) coeffsArray.push(Number(val));
-              }
-            } catch (e) {
-              // Fallback
-            }
-          }
-        }
-
-        // Final fallback: if still not an array, try to create one
-        if (!coeffsArray || !Array.isArray(coeffsArray)) {
-          if (Array.isArray(coeffs)) {
-            coeffsArray = Array.from(coeffs);
-          } else {
-            coeffsArray = [];
-          }
-        }
-
-        // Ensure it's a flat, plain JavaScript array of numbers
-        coeffsArray = Array.from(coeffsArray.flat()).map(v => Number(v) || 0);
-
-        if (typeof math !== 'undefined' && typeof math.polynomialRoot === 'function') {
-          // polynomialRoot expects coefficients as individual arguments, not an array
-          // coefficients should be in order from constant term to highest degree
-          // Math.js expects: polynomialRoot(c0, c1, c2, ...) where c0 is constant, c1 is coefficient of x, etc.
-          // Our coeffsArray is in descending order (highest degree first), so we need to reverse it
-          const reversedCoeffs = coeffsArray.slice().reverse();
-          const r = math.polynomialRoot(...reversedCoeffs) || [];
-          return r.map(rr => {
-            if (typeof rr === 'number') return { re: rr, im: 0 };
-            return {
-              re: Number(rr.re ?? rr.real ?? rr.x ?? 0),
-              im: Number(rr.im ?? rr.imag ?? rr.y ?? 0)
-            };
-          });
-        }
-        if (typeof math !== 'undefined' && typeof math.roots === 'function') {
-          // roots also expects coefficients as individual arguments in ascending order
-          const r = math.roots(...reversedCoeffs) || [];
-          return r.map(rr => {
-            if (typeof rr === 'number') return { re: rr, im: 0 };
-            return {
-              re: Number(rr.re ?? rr.x ?? 0),
-              im: Number(rr.im ?? rr.y ?? 0)
-            };
-          });
-        }
-        return this.findRoots(coeffsArray.slice()).map(rr => ({ re: Number(rr.re || 0), im: Number(rr.im || 0) }));
-      } catch (e) {
-        console.warn('Root finding failed:', e);
-        const coeffsArray = Array.isArray(coeffs) ? coeffs : (coeffs && typeof coeffs.toArray === 'function' ? coeffs.toArray().flat() : []);
-        return this.findRoots(coeffsArray.slice()).map(rr => ({ re: Number(rr.re || 0), im: Number(rr.im || 0) }));
-      }
-    };
+    // Use shared _safeRoots helper
+    const safeRoots = (coeffs) => this._safeRoots(coeffs);
 
     let poles = [], zeros = [];
     try {
